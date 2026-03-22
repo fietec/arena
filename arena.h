@@ -70,6 +70,7 @@ Region *new_region(size_t capacity);
 void free_region(Region *r);
 
 void *arena_alloc(Arena *a, size_t size_bytes);
+void *arena_zalloc(Arena *a, size_t size_bytes); // zero-initialized memory
 void *arena_realloc(Arena *a, void *oldptr, size_t oldsz, size_t newsz);
 char *arena_strdup(Arena *a, const char *cstr);
 void *arena_memdup(Arena *a, void *data, size_t size);
@@ -317,6 +318,14 @@ void *arena_alloc(Arena *a, size_t size_bytes)
 
     void *result = &a->end->data[a->end->count];
     a->end->count += size;
+    return result;
+}
+
+void *arena_zalloc(Arena *a, size_t size_bytes)
+{
+    void *result = arena_alloc(a, size_bytes);
+    size_t size = (size_bytes + sizeof(uintptr_t) - 1)/sizeof(uintptr_t);
+    memset(result, 0, size*sizeof(uintptr_t));
     return result;
 }
 
