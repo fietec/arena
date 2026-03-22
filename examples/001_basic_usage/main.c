@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define ARENA_IMPLEMENTATION
-#include "arena.h"
+#include "../../arena.h"
 
 // String Builder is any structure that has at least three fields: items, count, and capacity.
 // - `items` MUST be a pointer to char and it points to the beginning of the buffer that stores the string.
